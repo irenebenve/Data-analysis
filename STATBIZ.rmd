@@ -2,26 +2,32 @@
 ### LOW DIMENSIONAL MODEL ANALYSIS
 This analysis aims to investigate the impact of "International Plan" and "Total Day Minutes" on customer churn using logistic regression models. The models are trained on different datasets (normal, undersampled, and oversampled) to address class imbalance and compare the results.
 
+### Model trained on the original data (unbalanced) 
 Effect of Total Day Minutes and International Plan across all models, having an international plan significantly impacts the probability of churn. The interaction term indicates that the effect of total day minutes on churn probability varies based on whether the customer has an international plan.
 The model trained on the original data (unbalanced) may suffer from class imbalance, potentially leading to biased predictions towards the majority class. 
 PLOT
-COMMENT
+The diagram shows the probability of Churn by Total Day Minutes and International Plan (Unbalanced). On the X-axis are represented the total day minutes, while on the Y-axis the probability of churn. The red line, which represent the absence of international plans, shoews a steep increase in the probability of churn as Total Day Minutes increses. On the other hand, is clear that the blue line (adherence to international plans) increases in a more gradual way.
 
+
+### The undersampled model
 The undersampled model aims to provide a balanced view but might discard important information due to reduced data size.
 PLOT
-COMMENT
+This plot provide a graphical representation for Probability of Churn by Total Day Minutes and International Plan (Balanced). Keeping in mind that the values of the axis are the same as in the previous diagram, we can focus on the different tendency of the factores analyzed: in this case, the red line again shows a steep increase in the probability of churn as Total Day Minutes increase, but starting from a higher base compared to the unbalanced case; The blue line (Yes International Plan) shows a less steep but still increasing trend, starting from a higher base as well.
 
+
+### The oversampled model
 The oversampled model attempts to balance the classes by increasing the minority instances, which can improve the model's ability to predict churn for the minority class but may also introduce overfitting.
 PLOT
-COMMENT
+The Probability of Churn by Customer Service Calls (Balanced training set) is what is representented in the previous diagram, which shows the relation between the Customer Service Calls (on the X-axis) and the Probability of Churn (on the Y-axis). Only a single line is represented due to the lack of separation by International Plan. The probability of churn increases steadily as the number of customer service calls increases.
+
 
 The predicted probabilities from the plots reveal the relationship between total day minutes and churn probability, moderated by the international plan. Customers with an international plan show a different churn probability pattern compared to those without it.
-PLOT
-COMMENT
+
+By comparing the models, we can see the trade-offs between different sampling strategies and their impact on the predictive performance. The visualizations help communicate these effects clearly, aiding in the understanding and interpretation of the logistic regression results. We can thrive a conlcusion from the vizualization of the previous relationships: the probability of churn in balanced datasets (second and third diagrams) starts at a higher base compared to the unbalanced dataset (first diagram).
 
 This analysis highlights the importance of balancing datasets when building predictive models, especially in the presence of class imbalance. The interaction between total day minutes and the international plan provides valuable insights into customer churn behavior. Future steps could involve testing additional variables, using more advanced balancing techniques, and evaluating model performance using metrics like ROC-AUC and confusion matrices.
-By comparing the models, we can see the trade-offs between different sampling strategies and their impact on the predictive performance. The visualizations help communicate these effects clearly, aiding in the understanding and interpretation of the logistic regression results.
 
+---
 
 ### LOGISTIC REGRESSION MODEL WITH CUSTOMER SERVICE CALLS 
 Goal of the Analysis: This analysis aims to evaluate the impact of "Customer Service Calls" on customer churn using logistic regression models. The models are trained on different datasets (normal, undersampled, and oversampled) to address class imbalance and compare the results.
