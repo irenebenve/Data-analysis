@@ -38,11 +38,11 @@ The model trained on the original data (unbalanced) may be biased towards the ma
 
 The undersampled model addresses class imbalance by reducing the majority class instances, providing a more balanced view but possibly discarding some important information.
 PLOT
-COMMENT
+
 
 The oversampled model balances the classes by increasing the minority instances, which can improve the model's ability to predict churn for the minority class but may also introduce overfitting.
 PLOT
-COMMENT
+
 
 The predicted probabilities from the plots reveal a clear relationship between the number of customer service calls and churn probability. More customer service calls correspond to higher churn probabilities.
 
@@ -56,7 +56,7 @@ By comparing the models, we can see the trade-offs between different sampling st
 
 
 ### CLASSIFICATION TREE
-Goal of the Analysis: This analysis aims to evaluate the impact of "Total Day Minutes," "International Plan," and "Customer Service Calls" on customer churn using classification tree models. The models are trained on different datasets (normal, undersampled, and oversampled) to address class imbalance and compare the results.
+Goal of the Analysis: This analysis aims to evaluate the impact of "Total Day Minutes," "International Plan," and "Customer Service Calls" on customer churn using classification tree models. The models are trained on different datasets (normal, undersampled, and oversampled) to address class imbalance and compare the results. 
 
 ### Classification Tree with Normal Data
 - The aim is to build a classification tree using the normal training dataset to predict customer churn based on "Total Day Minutes," "International Plan," and "Customer Service Calls." The tree structure is visualized to show decision rules, and a complexity parameter table is printed to assess model pruning. Variable importance is calculated to identify key predictors, and a confusion matrix is generated to evaluate model performance.
@@ -65,10 +65,14 @@ Goal of the Analysis: This analysis aims to evaluate the impact of "Total Day Mi
    confusion_matrix_tree = table(predictions_tree, train_data$Churn)
    print(confusion_matrix_tree)
    ```
+PLOT
+The tree regarding the classification with normal data reflects the original data distribution without balancing techniques.
+The root node splits at `Total.day.minutes < 265`. Furthermore, ll trees use `Customer.service.calls < 4` for further splits, indicating the importance of customer service interactions.
+Exhibits the lowest initial churn probability (0.15 at root) and splits with more specific conditions regarding total day minutes.
+
 
 #### Classification Tree with Undersampled Data
-- the objective is to build a classification tree using undersampled data, which balances the classes by reducing the number of non-churn observations.
-- The output is similar to the normal data model, the tree structure is visualized, complexity parameter table printed, variable importance calculated, and confusion matrix generated for model evaluation using the undersampled dataset.
+The objective is to build a classification tree using undersampled data, which balances the classes by reducing the number of non-churn observations. The output is similar to the normal data model, the tree structure is visualized, complexity parameter table printed, variable importance calculated, and confusion matrix generated for model evaluation using the undersampled dataset.
 **Plotting the Tree:**
    ```r
    rpart.plot(simple_tree_undersample, main = "Classification Tree - Undersample Data")
@@ -79,11 +83,11 @@ Goal of the Analysis: This analysis aims to evaluate the impact of "Total Day Mi
    confusion_matrix_tree_undersample = table(predictions_tree_undersample, train_data_undersample$Churn)
    print(confusion_matrix_tree_undersample)
    ```
+As we can see, the root node splits at `Total.day.minutes < 223`. In the under sample data, the trees use `Customer.service.calls < 4` as much as `International.plan` for further splits, indicating the importance of customer service interactions. It is used to handle imbalanced data by reducing majority class samples, and it finally results into a similar trend but with slightly different thresholds and probabilities.
 
 
 #### Classification Tree with Oversampled Data
-- The goal is to build a classification tree using oversampled data, which balances the classes by increasing the number of churn observations.
-- The tree structure is visualized for the oversampled dataset, complexity parameter table printed, variable importance calculated, and confusion matrix generated to evaluate model performance.
+The goal is to build a classification tree using oversampled data, which balances the classes by increasing the number of churn observations. The tree structure is visualized for the oversampled dataset, complexity parameter table printed, variable importance calculated, and confusion matrix generated to evaluate model performance.
  **Complexity Parameter Table:**
    ```r
    printcp(simple_tree_oversample)
@@ -94,11 +98,16 @@ Goal of the Analysis: This analysis aims to evaluate the impact of "Total Day Mi
    print(importance_oversample)
    ```
  **Confusion Matrix:**
-   ```r
+    ```r
    predictions_tree_oversample = predict(simple_tree_oversample, train_data_oversample, type = "class")
    confusion_matrix_tree_oversample = table(predictions_tree_oversample, train_data_oversample$Churn)
    print(confusion_matrix_tree_oversample)
    ```
+
+The root node splits at `Total.day.minutes < 247` while, regardiong the second level splits, the paths used to elaborate further separations are exactly the same of those used in the under sample data. The outcome results in a higher probability of churn  seen in nodes with more total day minutes and more customer service calls. It is used to handle imbalanced data by duplicating minority class samples.
+
+
+Each diagram represents a decision tree used to classify the probability of customer churn based on various features. The differences mainly arise from the data balancing techniques (oversampling, undersampling, normal). These trees demonstrate how different data balancing techniques affect the decision tree's structure and the resulting classification of churn probabilities.
 
 This detailed analysis of classification tree models trained with "Total Day Minutes," "International Plan," and "Customer Service Calls" demonstrates the significance of these variables in predicting customer churn. By comparing models trained on normal, undersampled, and oversampled datasets, the analysis evaluates the impact of data balancing techniques on model performance. The visualizations and evaluation metrics provide clear insights into how the classification tree models handle different data balancing approaches.
 
