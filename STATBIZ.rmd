@@ -1,173 +1,55 @@
 # Data-analysis
 ### LOW DIMENSIONAL MODEL ANALYSIS
 This analysis aims to investigate the impact of "International Plan" and "Total Day Minutes" on customer churn using logistic regression models. The models are trained on different datasets (normal, undersampled, and oversampled) to address class imbalance and compare the results.
-#### Logistic Regression Model with International Plan and Total Day Minutes
 
-1. Firstly, we look at the logistic regression model in relation with Normal Data:
-   - The goal is to build a logistic regression model using the test data, examining the interaction between "Total Day Minutes" and "International Plan."
-   - Steps: The model is trained, and a summary is generated to view the coefficients and their significance. Predictive probabilities are computed and plotted to visualize the relationship between the predictors and the probability of churn.
-   ```r
-   summary(model_international_minutes)
-   ```
-   - **Output:** A plot showing the probability of churn as a function of "Total Day Minutes," separated by "International Plan" status, using the unbalanced training set.
-  ```r
-   ggplot(Data, aes(x = Total.day.minutes, y = predicted_probabilities, color = International.plan)) + 
-     geom_line(size = 1.2) + 
-     labs(title = "Probability of Churn by Total Day Minutes and International Plan (Unbalanced training set)", 
-          y = "Probability of Churn", x = "Total Day Minutes") +
-     scale_color_manual(values = c("red", "blue")) +
-     theme_minimal() +
-     theme(
-       plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-       axis.title.x = element_text(size = 14, face = "bold"),  
-       axis.title.y = element_text(size = 14, face = "bold"),  
-       axis.text.x = element_text(size = 12, color = "black"),  
-       axis.text.y = element_text(size = 12, color = "black"),  
-       panel.grid.major = element_line(color = "gray", linewidth = 0.5),  
-       panel.grid.minor = element_line(color = "lightgray", linewidth = 0.25),  
-       panel.background = element_rect(fill = "white") 
-     )
-   ```
-2. Then we trained a logistic regression model using undersampled data, which balances the classes by reducing the number of non-churn observations.
-   ```r
-   model_international_minutes_undersample = glm(Churn ~ Total.day.minutes * International.plan, 
-                     family = binomial(link = "logit"), 
-                     data = train_data_undersample)
-   ```
-   - The model is trained on the undersampled data, and the same steps as with the normal data are followed: generating a summary, computing predictive probabilities, and plotting the results.
-   - A plot showing the probability of churn by "Total Day Minutes" and "International Plan" using the balanced training set 1 (undersampled).
-   ```r
-   ggplot(Data, aes(x = Total.day.minutes, y = predicted_probabilities, color = International.plan)) + 
-     geom_line(size = 1.2) + 
-     labs(title = "Probability of Churn by Total Day Minutes and International Plan (Balanced training set 1)", 
-          y = "Probability of Churn", x = "Total Day Minutes") +
-     scale_color_manual(values = c("red", "blue")) + 
-     theme_minimal() +
-     theme(
-       plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-       axis.title.x = element_text(size = 14, face = "bold"),  
-       axis.title.y = element_text(size = 14, face = "bold"),  
-       axis.text.x = element_text(size = 12, color = "black"),  
-       axis.text.y = element_text(size = 12, color = "black"),  
-       panel.grid.major = element_line(color = "gray", size = 0.5),  
-       panel.grid.minor = element_line(color = "lightgray", size = 0.25),  
-       panel.background = element_rect(fill = "white") 
-   ```
+Effect of Total Day Minutes and International Plan across all models, having an international plan significantly impacts the probability of churn. The interaction term indicates that the effect of total day minutes on churn probability varies based on whether the customer has an international plan.
+The model trained on the original data (unbalanced) may suffer from class imbalance, potentially leading to biased predictions towards the majority class. 
+PLOT
+COMMENT
 
-3. In training a logistic regression model using oversampled data, which balances the classes by increasing the number of churn observations, we follow a similar path to the previous models, this model is trained on the oversampled data, and the results are summarized, predictive probabilities computed, and plotted.
- ```r
-   model_international_minutes_oversample = glm(Churn ~ Total.day.minutes * International.plan, 
-                                               family = binomial(link = "logit"), 
-                                               data = train_data_oversample)
- ```
-   - the output is a plot showing the probability of churn by "Total Day Minutes" and "International Plan" using the balanced training set 2 (oversampled).
-```r
-   ggplot(Data, aes(x = Total.day.minutes, y = predicted_probabilities, color = International.plan)) + 
-     geom_line(size = 1.2) + 
-     labs(title = "Probability of Churn by Total Day Minutes and International Plan (Balanced training set 2)", 
-          y = "Probability of Churn", x = "Total Day Minutes") +
-     scale_color_manual(values = c("red", "blue")) +
-     theme_minimal() +
-     theme(
-       plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-       axis.title.x = element_text(size = 14, face = "bold"),  
-       axis.title.y = element_text(size = 14, face = "bold"),  
-       axis.text.x = element_text(size = 12, color = "black"),  
-       axis.text.y = element_text(size = 12, color = "black"),  
-       panel.grid.major = element_line(color = "gray", size = 0.5),  
-       panel.grid.minor = element_line(color = "lightgray", size = 0.25),  
-       panel.background = element_rect(fill = "white") 
-     )
-   ```
-This detailed analysis of the logistic regression models trained with "International Plan" and "Total Day Minutes" demonstrates the significance of these variables in predicting customer churn. By comparing models trained on normal, undersampled, and oversampled datasets, the analysis evaluates the impact of data balancing techniques on model performance. The visualizations provide clear insights into how the probability of churn varies with "Total Day Minutes" for customers with and without an international plan.
+The undersampled model aims to provide a balanced view but might discard important information due to reduced data size.
+PLOT
+COMMENT
+
+The oversampled model attempts to balance the classes by increasing the minority instances, which can improve the model's ability to predict churn for the minority class but may also introduce overfitting.
+PLOT
+COMMENT
+
+The predicted probabilities from the plots reveal the relationship between total day minutes and churn probability, moderated by the international plan. Customers with an international plan show a different churn probability pattern compared to those without it.
+PLOT
+COMMENT
+
+This analysis highlights the importance of balancing datasets when building predictive models, especially in the presence of class imbalance. The interaction between total day minutes and the international plan provides valuable insights into customer churn behavior. Future steps could involve testing additional variables, using more advanced balancing techniques, and evaluating model performance using metrics like ROC-AUC and confusion matrices.
+By comparing the models, we can see the trade-offs between different sampling strategies and their impact on the predictive performance. The visualizations help communicate these effects clearly, aiding in the understanding and interpretation of the logistic regression results.
 
 
-
-### Logistic Regression Model with Customer Service Calls
+### LOGISTIC REGRESSION MODEL WITH CUSTOMER SERVICE CALLS 
 Goal of the Analysis: This analysis aims to evaluate the impact of "Customer Service Calls" on customer churn using logistic regression models. The models are trained on different datasets (normal, undersampled, and oversampled) to address class imbalance and compare the results.
 
-1. As before, we built a logistic regression model using the test data, examining the impact of "Customer Service Calls" on churn.
-   - The model is trained, and a summary is generated to view the coefficients and their significance. Predictive probabilities are computed and plotted to visualize the relationship between "Customer Service Calls" and the probability of churn.
-   ```r
-   model_customer_service_calls = glm(Churn ~ Customer.service.calls, 
-                                      family = binomial(link = "logit"), 
-                                      data = test_data)
-   ```
-   - The result is plot showing the probability of churn as a function of "Customer Service Calls," using the unbalanced training set.
-   ```r
-   ggplot(Data, aes(x = Customer.service.calls, y = predicted_probabilities)) + 
-     geom_line(size = 1.2, color = "blue") + 
-     labs(title = "Probability of Churn by Customer Service Calls (Unbalanced training set)", 
-          y = "Probability of Churn", x = "Customer Service Calls") +
-     theme_minimal() +
-     theme(
-       plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-       axis.title.x = element_text(size = 14, face = "bold"),  
-       axis.title.y = element_text(size = 14, face = "bold"),  
-       axis.text.x = element_text(size = 12, color = "black"),  
-       axis.text.y = element_text(size = 12, color = "black"),  
-       panel.grid.major = element_line(color = "gray", size = 0.5),  
-       panel.grid.minor = element_line(color = "lightgray", size = 0.25),  
-       panel.background = element_rect(fill = "white") 
-     ) +
-     scale_y_continuous(breaks = seq(0, 1, by = 0.1))
-   ```
+The number of customer service calls significantly impacts the probability of churn. As the number of customer service calls increases, the likelihood of churn also increases across all models.
+The model trained on the original data (unbalanced) may be biased towards the majority class, potentially leading to underestimation of churn probability for the minority class.
 
-2. To train a logistic regression model using undersampled data, which balances the classes by reducing the number of non-churn observations, we followed the same steps as with the normal data: generating a summary, computing predictive probabilities, and plotting the results.
-    ```r
-   summary(model_customer_service_calls_undersample)
-   ```
-   - In the end we get a plot showing the probability of churn by "Customer Service Calls" using the balanced training set 1 (undersampled).
-    ```r
-       ggplot(Data, aes(x = Customer.service.calls, y = predicted_probabilities)) + 
-         geom_line(size = 1.2, color = "blue") + 
-         labs(title = "Probability of Churn by Customer Service Calls (Balanced training set 1)", 
-              y = "Probability of Churn", x = "Customer Service Calls") +
-         theme_minimal() +
-         ylim(0,1) +
-         theme(
-           plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-           axis.title.x = element_text(size = 14, face = "bold"),  
-           axis.title.y = element_text(size = 14, face = "bold"),  
-           axis.text.x = element_text(size = 12, color = "black"),  
-           axis.text.y = element_text(size = 12, color = "black"),  
-           panel.grid.major = element_line(color = "gray", size = 0.5),  
-           panel.grid.minor = element_line(color = "lightgray", size = 0.25),  
-           panel.background = element_rect(fill = "white") 
-         ) +
-         scale_y_continuous(breaks = seq(0, 1, by = 0.1))
-       ```
-4. Training a logistic regression model using oversampled data balances the classes by increasing the number of churn observations. This model is trained on the oversampled data, and the results are summarized, predictive probabilities computed, and plotted.
-   - A plot showing the probability of churn by "Customer Service Calls" using the balanced training set 2 (oversampled).
-### Computing Predictive Probabilities: ###
-   ```r
-   Data$predicted_probabilities = predict(model_customer_service_calls_oversample, newdata = Data, type="response")
-   ```
-### Plotting the Probabilities: ###
-   ```r
-   ggplot(Data, aes(x = Customer.service.calls, y = predicted_probabilities)) + 
-     geom_line(size = 1.2, color = "blue") + 
-     labs(title = "Probability of Churn by Customer Service Calls (Balanced training set 2)", 
-          y = "Probability of Churn", x = "Customer Service Calls") +
-     theme_minimal() +
-     theme(
-       plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),  
-       axis.title.x = element_text(size = 14, face = "bold"),  
-       axis.title.y = element_text(size = 14, face = "bold"),  
-       axis.text.x = element_text(size = 12, color = "black"),  
-       axis.text.y = element_text(size = 12, color = "black"),  
-       panel.grid.major = element_line(color = "gray", size = 0.5),  
-       panel.grid.minor = element_line(color = "lightgray", size = 0.25),  
-       panel.background = element_rect(fill = "white") 
-     ) +
-     scale_y_continuous(breaks = seq(0, 1, by = 0.1))
-   ```
 
-This detailed analysis of the logistic regression models trained with "Customer Service Calls" demonstrates the significance of this variable in predicting customer churn. By comparing models trained on normal, undersampled, and oversampled datasets, the analysis evaluates the impact of data balancing techniques on model performance. The visualizations provide clear insights into how the probability of churn varies with the number of customer service calls.
+The undersampled model addresses class imbalance by reducing the majority class instances, providing a more balanced view but possibly discarding some important information.
+PLOT
+COMMENT
+
+The oversampled model balances the classes by increasing the minority instances, which can improve the model's ability to predict churn for the minority class but may also introduce overfitting.
+PLOT
+COMMENT
+
+The predicted probabilities from the plots reveal a clear relationship between the number of customer service calls and churn probability. More customer service calls correspond to higher churn probabilities.
+
+
+This analysis highlights the importance of balancing datasets when building predictive models, especially in the presence of class imbalance. The number of customer service calls is a strong predictor of customer churn. Future steps could involve testing additional variables, using more advanced balancing techniques, and evaluating model performance using metrics like ROC-AUC and confusion matrices.
+By comparing the models, we can see the trade-offs between different sampling strategies and their impact on the predictive performance. The visualizations help communicate these effects clearly, aiding in the understanding and interpretation of the logistic regression results.
 
 
 
-### Classification Tree 
+
+
+
+### CLASSIFICATION TREE
 Goal of the Analysis: This analysis aims to evaluate the impact of "Total Day Minutes," "International Plan," and "Customer Service Calls" on customer churn using classification tree models. The models are trained on different datasets (normal, undersampled, and oversampled) to address class imbalance and compare the results.
 
 ### Classification Tree with Normal Data
