@@ -106,7 +106,6 @@ The goal is to build a classification tree using oversampled data, which balance
 
 The root node splits at `Total.day.minutes < 247` while, regardiong the second level splits, the paths used to elaborate further separations are exactly the same of those used in the under sample data. The outcome results in a higher probability of churn  seen in nodes with more total day minutes and more customer service calls. It is used to handle imbalanced data by duplicating minority class samples.
 
-
 Each diagram represents a decision tree used to classify the probability of customer churn based on various features. The differences mainly arise from the data balancing techniques (oversampling, undersampling, normal). These trees demonstrate how different data balancing techniques affect the decision tree's structure and the resulting classification of churn probabilities.
 
 This detailed analysis of classification tree models trained with "Total Day Minutes," "International Plan," and "Customer Service Calls" demonstrates the significance of these variables in predicting customer churn. By comparing models trained on normal, undersampled, and oversampled datasets, the analysis evaluates the impact of data balancing techniques on model performance. The visualizations and evaluation metrics provide clear insights into how the classification tree models handle different data balancing approaches.
